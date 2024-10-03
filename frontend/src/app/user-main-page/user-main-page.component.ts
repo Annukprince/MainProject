@@ -1,59 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarUserComponent } from '../navbar-user/navbar-user.component';
 import { RouterLink } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import { Router } from 'express';
-import { OnInit } from '@angular/core';
+import { MapComponent } from '../map/map.component'; // Import MapComponent
+import { SessionService } from '../session.service';
 
 interface UserProfile {
   fullName: string;
+  email: string;
 }
+
 @Component({
   selector: 'app-user-main-page',
   standalone: true,
-  imports: [NavbarUserComponent, RouterLink,RouterOutlet],
+  imports: [NavbarUserComponent, RouterLink, RouterOutlet, MapComponent], // Add MapComponent
   templateUrl: './user-main-page.component.html',
-  styleUrl: './user-main-page.component.css'
+  styleUrls: ['./user-main-page.component.css']
 })
-export class UserMainPageComponent implements OnInit{
+export class UserMainPageComponent implements OnInit {
 
-  // username: string = 'User';
+  username: string = ''; // Variable to store the username (email)
+  userProfile: UserProfile = { fullName: '', email: '' }; // Store the user profile
 
-  weakPrint: number = 0;
-
-  username: string = ''; // Variable to store the username
-
-  userProfile: UserProfile = {
-    fullName: ''
-  };
+  constructor(private sessionService: SessionService) {}
 
   ngOnInit(): void {
-    this.loadUserProfile();
+    this.loadUserProfile(); // Load the logged-in user's profile
   }
 
   loadUserProfile(): void {
-    // Safely parse and access the stored user data from localStorage
-    const userData = localStorage.getItem("user");
-    console.log('User data from localStorage:', userData); // Log the retrieved data
-
-    if (userData) {
-      try {
-        const users = JSON.parse(userData);  // Parse the user data
-        if (Array.isArray(users) && users.length > 0) {
-          const user = users[0]; // Get the first user from the array
-          this.userProfile.fullName = `${user.firstName} ${user.lastName}`; // Set fullName
-          this.username = user.firstName; // Set the username for the welcome message
-        } else {
-          console.warn('User data is not in the expected format or is empty.');
+    // Retrieve the username (email) of the logged-in user
+    const loggedInUsername = this.sessionService.getToken('username');
+    console.log('logged in : ' , loggedInUsername);
+    if (loggedInUsername) {
+      // Retrieve the user array stored in localStorage
+      // const usersData = localStorage.getItem('user');
+      const usersData = this.sessionService.getToken('user');
+      console.log('user : ' , usersData);
+      if (usersData) {
+        try {
+          const users = JSON.parse(usersData);
+          console.log('users : ' , users);
+          // Search for the logged-in user in the stored users array
+          const currentUser = users.find((user: any) => user.email === loggedInUsername);
+          console.log('currentUser : ' , currentUser);
+          if (currentUser) {
+            // Set the full name and email of the logged-in user
+            this.userProfile.fullName = `${currentUser.firstName} ${currentUser.lastName}`;
+            this.userProfile.email = currentUser.email;
+            this.username = currentUser.firstName;
+          } else {
+            console.warn('Logged-in user not found in stored users array.');
+          }
+        } catch (error) {
+          console.error('Error parsing users data:', error);
         }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
+      } else {
+        console.warn('No users data found in localStorage.');
       }
     } else {
-      // Handle if no user data is available
-      console.warn('No user data found in localStorage.');
+      console.warn('No logged-in username found in localStorage.');
     }
   }
-
-
 }

@@ -5,6 +5,7 @@ import { NavbarUserComponent } from '../navbar-user/navbar-user.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { SessionService } from '../session.service';
 
 interface User {
   firstName: string;
@@ -24,32 +25,46 @@ export class UserprofileComponent implements OnInit {
 
   user: User | null = null;  // Variable to store the user profile data
 
-  constructor(private router: Router) {}
+  constructor(private router: Router , private sessionService:SessionService) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
   }
 
   loadUserProfile(): void {
-    // Retrieve user data from localStorage
-    const userData = localStorage.getItem('user');
-    console.log('User data from localStorage:', userData);  // Log the retrieved data
+    // Retrieve the logged-in user's email from localStorage
+    const loggedInUsername = this.sessionService.getToken('username');
+    // const loggedInUsername = localStorage.getItem('username');
 
-    if (userData) {
-      try {
-        const users = JSON.parse(userData);  // Parse the user data
-        if (Array.isArray(users) && users.length > 0) {
-          this.user = users[0];  // Access the first user in the array
-          console.log('Parsed user data:', this.user);
-        } else {
-          console.warn('User data is not in the expected format or is empty.');
+    if (loggedInUsername) {
+      // Retrieve the stored users array from localStorage
+      const userData = this.sessionService.getToken('user');
+      // const userData = localStorage.getItem('user');
+      console.log('User data from localStorage:', userData);
+
+      if (userData) {
+        try {
+          const users = JSON.parse(userData);  // Parse the user data array
+
+          // Find the user who matches the logged-in email
+          const currentUser = users.find((user: User) => user.email === loggedInUsername);
+
+          if (currentUser) {
+            // Set the found user data to be displayed
+            this.user = currentUser;
+            console.log('Parsed user data:', this.user);
+          } else {
+            console.warn('No matching user found for the logged-in email.');
+          }
+
+        } catch (error) {
+          console.error('Error parsing user data:', error);
         }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
+      } else {
+        console.warn('No user data found in localStorage.');
       }
     } else {
-      // Handle if no user data is available
-      console.warn('No user data found in localStorage.');
+      console.warn('No logged-in username found in localStorage.');
     }
   }
 

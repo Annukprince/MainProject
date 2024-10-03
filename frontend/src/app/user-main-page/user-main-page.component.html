@@ -1,4 +1,5 @@
 <app-navbar-user></app-navbar-user>
+
 <div class="userMain">
     <div class="welcome">
         <h1>Welcome, {{ username }}!</h1>
@@ -9,14 +10,11 @@
             <a routerLink="/user/bus">View Available Buses</a>
             <a routerLink="/user/book">Book a Bus Ticket</a>
         </nav>
-        <!-- <ul>
-            <li><a routerLink="user/bus">View Available Buses</a></li>
-            <li><a routerLink="user/book">Book a Bus Ticket</a></li>
-
-        </ul> -->
     </div>
 
+    <!-- Map Section -->
+    <div class="map-container">
+        <h2>Your Location</h2>
+        <app-map></app-map> <!-- Add the MapComponent here -->
+    </div>
 </div>
-
-
-has context menu

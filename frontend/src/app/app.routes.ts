@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { UserBusPageComponent} from './user-bus-page/user-bus-page.component';
 import {UserBusBookComponent} from './user-bus-book/user-bus-book.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import { MapComponent } from './map/map.component';
 
 
 

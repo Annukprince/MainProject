@@ -22,7 +22,7 @@
   text-align: center;
   overflow: hidden;
    /* Ensure the pseudo-element doesn't overflow the box */
-   background-color: #d7e2dc;
+   background: rgba(255, 255, 255, 0.7);
 }
 
 /* Background with blend */
@@ -35,7 +35,7 @@
   bottom: 0;
   /* Adjust opacity to make it lighter */
   z-index: -1; /* Keep it behind the form content */
-  
+
 }
 
 /* Heading for the form */
@@ -54,7 +54,7 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #444;
+  color: #425d6f;
 }
 
 input {

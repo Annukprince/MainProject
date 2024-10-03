@@ -100,6 +100,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-login',
@@ -116,7 +117,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private sessionService: SessionService
   ) {
     // Sign-in form
     this.signInForm = this.fb.group({
@@ -145,11 +147,14 @@ export class LoginComponent {
       this.authService.authenticate(formData.email, formData.password).subscribe((response: any) => {
         const token = response.token;
         // Store the token in localStorage or sessionStorage
-        localStorage.setItem('authToken', token);
+        this.sessionService.register('authToken' , token);
+        // localStorage.setItem('authToken', token);
+
 
         // Correct URL endpoint - removing the role if it's unnecessary
         this.authService.getUser(formData.email).subscribe(user => {
-          localStorage.setItem("user", JSON.stringify(user));
+          this.sessionService.register("user", JSON.stringify(user))
+          // localStorage.setItem("user", JSON.stringify(user));
             console.log(user);
 
         let userRole = user.role;
@@ -158,7 +163,8 @@ export class LoginComponent {
           if(element.email === formData.email) {
               userRole = element.role;
               console.log('Adding local storage');
-            localStorage.setItem("username" , element.username);
+            this.sessionService.register("username" , element.username);
+            // localStorage.setItem("username" , element.username);
           }
         });
 

@@ -28,8 +28,10 @@
 }
 
 .profile-container .user-info {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Label and value alignment */
+  gap: 10px;
+  align-items: center; /* Aligns text vertically */
   padding: 15px;
   background-color: rgb(143, 171, 182); /* Matching color scheme */
   border-radius: 5px;

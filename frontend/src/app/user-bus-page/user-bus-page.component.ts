@@ -5,6 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavbarUserComponent } from '../navbar-user/navbar-user.component';
 
 @Component({
   selector: 'app-user-bus-page',
@@ -14,7 +15,8 @@ import { Router } from '@angular/router';
     RouterLink,
     NavbarComponent,
     RouterOutlet,
-    FormsModule
+    FormsModule,
+    NavbarUserComponent
   ],
   templateUrl: './user-bus-page.component.html',
   styleUrls: ['./user-bus-page.component.css']
