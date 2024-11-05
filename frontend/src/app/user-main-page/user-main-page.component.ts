@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { MapComponent } from '../map/map.component'; // Import MapComponent
 import { SessionService } from '../session.service';
 
+
 interface UserProfile {
   fullName: string;
   email: string;

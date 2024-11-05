@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../user.service'; // Adjust the path based on your project structure
 import { RouterLink } from '@angular/router';
+import { NavbarUserComponent } from '../navbar-user/navbar-user.component';
 
 @Component({
   selector: 'app-user-bus-book',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink,NavbarUserComponent],
   templateUrl: './user-bus-book.component.html',
   styleUrls: ['./user-bus-book.component.css']
 })

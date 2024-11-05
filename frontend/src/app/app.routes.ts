@@ -12,6 +12,7 @@ import { UserBusPageComponent} from './user-bus-page/user-bus-page.component';
 import {UserBusBookComponent} from './user-bus-book/user-bus-book.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { MapComponent } from './map/map.component';
+import { LandingComponent } from './landing/landing.component';
 
 
 
@@ -29,7 +30,8 @@ import { MapComponent } from './map/map.component';
 
 export const routes: Routes = [
     // { path: '', component:LoginComponent },
-    { path: '', component:LoginComponent },
+    { path: '', component: LandingComponent },
+    { path: 'login', component:LoginComponent },
     { path: 'admin', component:AdminMainPageComponent },
     { path: 'admin/bus', component:AdminBusComponent },
     { path: 'admin/user', component:AdminUserComponent},
