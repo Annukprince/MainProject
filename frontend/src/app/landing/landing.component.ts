@@ -16,6 +16,8 @@ export class LandingComponent {
 
   showLoginModal = false;
 
+  constructor(private router:Router){}
+
   openLoginModal() {
     this.showLoginModal = true;
   }
@@ -23,4 +25,9 @@ export class LandingComponent {
   closeLoginModal() {
     this.showLoginModal = false;
   }
+
+  hanndleClick() {
+    this.router.navigate(['/login'])
+  }
+
 }
